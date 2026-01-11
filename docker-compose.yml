@@ -1,0 +1,40 @@
+
+
+services:
+  # Database Service
+  db:
+    image: postgres:15
+    container_name: leafguard_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Backend API Service
+  backend:
+    build: ./leafguard-backend
+    container_name: leafguard_api
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env
+    environment:
+      # Overriding DB_HOST to use the Docker service name
+      DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

@@ -1,1 +1,0 @@
-# LeafGuard_Ai-Powered-Plant-Disease-Indentification
