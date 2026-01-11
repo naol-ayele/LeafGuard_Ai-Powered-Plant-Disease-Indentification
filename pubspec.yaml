@@ -1,0 +1,65 @@
+name: leafguard
+description: Offline plant disease detection app
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  camera: ^0.11.3
+  tflite_flutter: ^0.12.1
+  image: ^4.7.1
+  path_provider: ^2.1.5
+  image_picker: ^1.2.1
+  shared_preferences: ^2.5.4
+  sqflite: ^2.4.2
+  flutter_tts: ^4.2.3
+  abushakir: ^1.0.0
+  http: ^1.6.0
+  http_parser: ^4.1.2
+  path: ^1.9.1
+  intl: ^0.20.2
+  cupertino_icons: ^1.0.8
+  easy_localization: ^3.0.8
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0 # Moved here from the bottom
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.7
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/app_icon.png"
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/app_icon.png
+  android_12:
+    image: assets/images/app_icon.png
+    color: "#ffffff"
+    icon_background_color: "#ffffff"
+  ios: true
+  android: true
+
+flutter:
+  assets:
+    - assets/models/model_quantized.tflite
+    - assets/models/labels.txt
+    - assets/models/disease_info.json
+    - assets/images/app_icon.png # Added this so you can use the logo in the UI
+    - assets/translations/
+
+  uses-material-design: true
