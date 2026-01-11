@@ -1,32 +1,60 @@
-# --- Ignore Source Code Logic ---
-# Flutter Logic
-lib/**/*.dart
-assets/images/
-assets/models/
-assets/translations/
-# Node.js Logic (Backend)
-leafguard-backend/controllers/
-leafguard-backend/routes/
-leafguard-backend/config/
-leafguard-backend/tests/
-leafguard-backend/middleware/
-leafguard-backend/models/
-leafguard-backend/services/
-leafguard-backend/index.js
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
 
-# --- Keep Setup & Config ---
-!pubspec.yaml
-!package.json
-!leafguard-backend/package.json
-!docker-compose.yml
-!Dockerfile
-!leafguard-backend/Dockerfile
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
 
-# --- Standard Security/Cleanup ---
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+
+# Security - CRITICAL
 .env
 .env.*
+
+# Node modules (Root)
 node_modules/
-build/
-.dart_tool/
+
+# Eclipse/Workspace metadata
 .metadata
-.idea/
+
+
+
+
