@@ -5,14 +5,14 @@ assets/images/
 assets/models/
 assets/translations/
 # Node.js Logic (Backend)
-leafguard-backend/controllers/
-leafguard-backend/routes/
-leafguard-backend/config/
-leafguard-backend/tests/
-leafguard-backend/middleware/
-leafguard-backend/models/
-leafguard-backend/services/
-leafguard-backend/index.js
+# leafguard-backend/controllers/
+# leafguard-backend/routes/
+# leafguard-backend/config/
+# leafguard-backend/tests/
+# leafguard-backend/middleware/
+# leafguard-backend/models/
+# leafguard-backend/services/
+# leafguard-backend/index.js
 
 # --- Keep Setup & Config ---
 !pubspec.yaml
