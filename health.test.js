@@ -36,5 +36,3 @@ describe("System Health and Global Error Handlers", () => {
     expect(res.body).toHaveProperty("success", false);
   });
 });
-
-// minor update 2
