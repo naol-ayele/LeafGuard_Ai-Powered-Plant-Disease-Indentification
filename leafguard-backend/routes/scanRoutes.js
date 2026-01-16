@@ -3,3 +3,15 @@ const router = express.Router();
 const scanController = require("../controllers/scanController");
 const auth = require("../middleware/authMiddleware");
 const multer = require("multer");
+// upload configuration
+const upload = multer({
+  dest: "uploads/",
+  limits: { fileSize: 5 * 1024 * 1024 }, 
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only images less than 5mb are allowed!"), false);
+    }
+  },
+});
