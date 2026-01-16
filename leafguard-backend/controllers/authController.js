@@ -104,5 +104,84 @@ exports.login = async (req, res) => {
       .json({ success: false, error: "Server Error during login" });
   }
 }
+// Forgot password
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  
+  if (!email || typeof email !== "string") {
+    return res
+      .status(400)
+      .json({ success: false, error: "A valid email is required" });
+  }
+
+  try {
+
+    const userResult = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+    if (userResult.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, error: "User with this email not found" });
+    }
+
+    // 2. Create a random 6-digit numeric code
+    const resetToken = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // 3. Hash the token to store in Db
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    // 4. Set Expiry 
+    const expiry = Date.now() + 15 * 60 * 1000;
+
+    
+    await pool.query(
+      "UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3",
+      [hashedToken, expiry, email]
+    );
+
+    
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: `"LeafGuard Support" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "LeafGuard Password Reset Request",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+          <h2 style="color: #2e7d32; text-align: center;">Password Reset</h2>
+          <p>You requested to reset your password. Please use the following 6-digit code in the LeafGuard app:</p>
+          <div style="background-color: #f5f5f5; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; color: #333; letter-spacing: 10px; border-radius: 5px; margin: 20px 0;">
+            ${resetToken}
+          </div>
+          <p style="margin-top: 20px; font-size: 13px; color: #666; text-align: center;">This code will expire in 15 minutes. If you did not request this, please ignore this email.</p>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({
+      success: true,
+      message: "Reset token sent to your email address.",
+    });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(500)
+      .json({ success: false, error: "Server error during forgot password" });
+  }
+};
 
 
