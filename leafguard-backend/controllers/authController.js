@@ -242,3 +242,66 @@ exports.resetPassword = async (req, res) => {
       .json({ success: false, error: "Server error during reset password" });
   }
 };
+
+// Change password
+exports.changePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  if (
+    !currentPassword ||
+    typeof currentPassword !== "string" ||
+    !newPassword ||
+    typeof newPassword !== "string"
+  ) {
+    return res.status(400).json({
+      success: false,
+      error: "Current and new passwords are required",
+    });
+  }
+
+  const userId = req.user ? req.user.id : null;
+  if (!userId) {
+    return res.status(401).json({ success: false, error: "Unauthorized" });
+  }
+
+  try {
+    // 3. Fetch user from DB
+    const userResult = await pool.query("SELECT * FROM users WHERE id = $1", [
+      userId,
+    ]);
+    const user = userResult.rows[0];
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Current password is incorrect" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+    const result = await pool.query(
+      "UPDATE users SET password = $1 WHERE id = $2",
+      [hashedNewPassword, userId]
+    );
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, error: "User no longer exists" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Password changed successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(500)
+      .json({ success:
+         false, error: "Server error during password change" });
+  }
+};
