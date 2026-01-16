@@ -184,4 +184,61 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
+// Password reset
+exports.resetPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
 
+
+  if (
+    !token ||
+    typeof token !== "string" ||
+    !newPassword ||
+    typeof newPassword !== "string"
+  ) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Token and new password are required" });
+  }
+
+  try {
+    // 1. Hash the incoming token to compare with stored hashed token
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    // 2. Find user with this token and check if expiry is still in the future
+    const userResult = await pool.query(
+      "SELECT * FROM users WHERE reset_token = $1 AND reset_token_expiry > $2",
+      [hashedToken, Date.now()]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Token is invalid or has expired" });
+    }
+
+    const user = userResult.rows[0];
+    // 3. Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+
+    const result = await pool.query(
+      "UPDATE users SET password = $1, reset_token = NULL, reset_token_expiry = NULL WHERE id = $2",
+      [hashedPassword, user.id]
+    );
+
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, error: "User no longer exists" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "Password updated successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(500)
+      .json({ success: false, error: "Server error during reset password" });
+  }
+};
