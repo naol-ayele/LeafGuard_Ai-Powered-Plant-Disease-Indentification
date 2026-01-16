@@ -51,4 +51,58 @@ exports.register=async(req , res)=>{
   }
 };
 
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (
+    !email ||
+    !password ||
+    typeof email !== "string" ||
+    typeof password !== "string"
+  ) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid email or password format" });
+  }
+
+  try {
+    // 1. Check if user exists
+    const userResult = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    const user = userResult.rows[0];
+
+    // 2. Verify Password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid credentials" });
+    }
+
+    // 3. Create and assign JWT Token
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" } 
+    );
+
+    res.json({
+      success: true,
+      token: token,
+      user: { id: user.id, name: user.full_name, email: user.email },
+    });
+  } catch (err) {
+    console.error(err.message);
+    res
+      .status(500)
+      .json({ success: false, error: "Server Error during login" });
+  }
+}
+
 
