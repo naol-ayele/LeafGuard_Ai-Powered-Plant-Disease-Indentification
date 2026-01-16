@@ -15,3 +15,9 @@ const upload = multer({
     }
   },
 });
+// restrictd route for uploading and viewing scan history 
+router.post("/upload", auth, upload.single("image"), scanController.uploadScan);
+router.get("/history", auth, scanController.getHistory);
+router.delete("/:id", auth, scanController.deleteScan);
+
+module.exports = router;
