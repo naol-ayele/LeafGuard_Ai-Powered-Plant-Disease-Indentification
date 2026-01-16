@@ -81,7 +81,7 @@ exports.uploadScan = async (req, res) => {
   }
 };
 
-// Get scan
+// Get scan history
 exports.getHistory = async (req, res) => {
   const userId = req.user.id;
   try {
@@ -101,5 +101,37 @@ exports.getHistory = async (req, res) => {
     res
       .status(500)
       .json({ success: false, error: "Server error fetching history" });
+  }
+};
+
+// delete a scan
+exports.deleteScan = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const userEmail = req.user.email;
+
+    const result = await pool.query(
+      "DELETE FROM scans WHERE id = $1 AND user_id = $2 RETURNING *",
+      [id, userId]
+    );
+
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Scan not found or unauthorized" });
+    }
+
+    console.log(
+      `[AUDIT LOG] Action: DELETE_SCAN | User: ${userEmail} (ID: ${userId}) | Scan ID: ${id} | Timestamp: ${new Date().toISOString()}`
+    );
+
+    res.json({ success: true, message: "Scan deleted successfully" });
+  } catch (err) {
+    const isProduction = process.env.NODE_ENV === "production";
+    res.status(500).json({
+      success: false,
+      error: isProduction ? "Internal Server Error" : err.message,
+    });
   }
 };
