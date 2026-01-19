@@ -99,9 +99,7 @@ model.fit(
 model.save(MODEL_PATH)
 print(f"Model saved as {MODEL_PATH}")
 
-# 5. TFLITE CONVERSION WITH REAL CALIBRATION
 def representative_dataset():
-    # Use real images from the train_data generator for INT8 calibration
     for _ in range(20): # 20 batches * 5 images = 100 calibration images
         images, _ = next(train_data)
         for i in range(min(len(images), 5)):
@@ -112,7 +110,7 @@ converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
 converter.representative_dataset = representative_dataset
 
-# Force full integer quantization for better mobile performance
+
 converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
 converter.inference_input_type = tf.uint8   # App sends 0-255
 converter.inference_output_type = tf.uint8 # App receives 0-255
