@@ -32,3 +32,26 @@ class AuthService {
     );
     return jsonDecode(response.body);
   }
+  Future<Map<String, dynamic>> login(String email, String password) async {
+    final response = await http.post(
+      Uri.parse("$baseUrl/login"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"email": email, "password": password}),
+    );
+
+    final data = jsonDecode(response.body);
+    if (data['success'] == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+          'token', data['token']);
+    }
+
+    if (data['success'] == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', data['token']);
+      await prefs.setString('userName', data['user']['name']);
+      await prefs.setString('userEmail', data['user']['email']);
+    }
+
+    return data;
+  }
