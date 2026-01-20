@@ -8,3 +8,47 @@ import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'navigation.dart';
 import 'ml/tflite_service.dart';
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  try {
+    final results = await Future.wait([
+      availableCameras(),
+      SharedPreferences.getInstance(),
+      TFLiteService().loadModel(),
+    ]);
+
+    cameras = results[0] as List<CameraDescription>;
+    final prefs = results[1] as SharedPreferences;
+    final bool showOnboarding = prefs.getBool('showOnboarding') ?? true;
+    final String? token = prefs.getString('token');
+    final bool isLoggedIn = token != null && token.isNotEmpty;
+
+    FlutterNativeSplash.remove();
+
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('am'), Locale('or')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        child: LeafGuardApp(
+          showOnboarding: showOnboarding,
+          isLoggedIn: isLoggedIn,
+        ),
+      ),
+    );
+  } catch (e) {
+    debugPrint("Initialization error: $e");
+    FlutterNativeSplash.remove();
+    runApp(EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('am'), Locale('or')],
+      path: 'assets/translations',
+      child: const LeafGuardApp(showOnboarding: true, isLoggedIn: false),
+    ));
+  }
+}
