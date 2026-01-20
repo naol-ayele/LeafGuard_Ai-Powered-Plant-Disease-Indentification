@@ -52,3 +52,38 @@ Future<void> main() async {
     ));
   }
 }
+class LeafGuardApp extends StatelessWidget {
+  final bool showOnboarding;
+  final bool isLoggedIn;
+
+  const LeafGuardApp(
+      {super.key, required this.showOnboarding, required this.isLoggedIn});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'LeafGuard',
+      // Add Localization Delegates
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        useMaterial3: true,
+        // Optional: Add NotoSansEthiopic font to your assets if Amharic looks thin
+      ),
+      // Session Logic: Onboarding -> Login -> Main Navigation
+      home: showOnboarding
+          ? const OnboardingScreen()
+          : (isLoggedIn ? const MainNavigation() : LoginScreen()),
+      // Define routes for navigation throughout the app
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/home': (context) => const MainNavigation(),
+      },
+    );
+  }
+}
+
