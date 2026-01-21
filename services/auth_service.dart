@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
 class AuthService {
   static const String baseUrl =
       "https://subterraqueous-janis-heterothallic.ngrok-free.dev/api/auth";
@@ -21,8 +24,11 @@ class AuthService {
       return {'success': false, 'error': 'Server communication error'};
     }
   }
+<<<<<<< HEAD
 
   // Register User
+=======
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
   Future<Map<String, dynamic>> register(
       String name, String email, String password) async {
     final response = await http.post(
@@ -35,8 +41,11 @@ class AuthService {
     );
     return jsonDecode(response.body);
   }
+<<<<<<< HEAD
 
   // Login User and Save Token
+=======
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
       Uri.parse("$baseUrl/login"),
@@ -48,21 +57,32 @@ class AuthService {
     if (data['success'] == true) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(
+<<<<<<< HEAD
           'token', data['token']); // Saves JWT for subsequent API calls
+=======
+          'token', data['token']);
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
     }
 
     if (data['success'] == true) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', data['token']);
+<<<<<<< HEAD
       // SAVE THESE TOO:
+=======
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
       await prefs.setString('userName', data['user']['name']);
       await prefs.setString('userEmail', data['user']['email']);
     }
 
     return data;
   }
+<<<<<<< HEAD
 
 // CHANGE PASSWORD (For logged-in users)
+=======
+  // CHANGE PASSWORD (For logged-in users)
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
   Future<Map<String, dynamic>> changePassword(
       String currentPassword, String newPassword) async {
     try {
@@ -99,15 +119,23 @@ class AuthService {
       return {'success': false, 'error': e.toString()};
     }
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
     await prefs.remove('userName');
     await prefs.remove('userEmail');
+<<<<<<< HEAD
     // You can also use prefs.clear() to remove everything
   }
 
+=======
+  }
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
   Future<Map<String, dynamic>> resetPassword(
       String token, String newPassword) async {
     try {
@@ -124,7 +152,11 @@ class AuthService {
       return {'success': false, 'error': e.toString()};
     }
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 33d616d49c6a31fd14fcb031575f8c27363fa6dd
   Future<Map<String, dynamic>> forgotPassword(String email) async {
     try {
       final response = await http.post(
