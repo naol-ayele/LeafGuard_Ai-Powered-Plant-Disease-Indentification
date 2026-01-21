@@ -76,4 +76,12 @@ def predict_image(img_path, class_names):
         print(f"\nERROR: Image file not found at {img_path}. Please check IMG_PATH.")
     except Exception as e:
         print(f"\nAn error occurred during prediction: {e}")
+if __name__ == "__main__":
+    
+    # Get the list of class names
+    CLASS_NAMES = get_class_names()
+    
+    if CLASS_NAMES:
+        print(f"Found {len(CLASS_NAMES)} classes: {CLASS_NAMES}")
+        predict_image(IMG_PATH, CLASS_NAMES)
 
