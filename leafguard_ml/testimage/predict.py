@@ -39,3 +39,41 @@ def get_class_names():
         print(f"Error retrieving class names from {os.path.join(DATA_DIR, 'train')}: {e}")
         print("Ensure 'data/splits/train' exists and contains class folders.")
         return None
+def predict_image(img_path, class_names):
+    """
+    Loads, preprocesses, and predicts the class of a single image.
+    """
+    try:
+        # 1. Load and Resize Image (using the updated access method)
+        img = tf.keras.utils.load_img(img_path, target_size=(IMG_SIZE, IMG_SIZE))
+        
+        # 2. Convert to Array (using the updated access method)
+        x = tf.keras.utils.img_to_array(img)
+        
+        # 3. Normalize (must match training normalization: 0-255 -> 0.0-1.0)
+        x = x / 255.0
+        
+        # 4. Add Batch Dimension (1, H, W, C)
+        x = np.expand_dims(x, axis=0)
+
+        # 5. Predict
+        preds = model.predict(x, verbose=0)
+        
+        # 6. Interpret Results
+        class_index = np.argmax(preds)
+        confidence = preds[0][class_index]
+        
+        predicted_class = class_names[class_index] if class_names else "Unknown Class (Mapping Failed)"
+            
+        print("-" * 40)
+        print(f"✅ Prediction for {os.path.basename(img_path)}:")
+        print(f"   Predicted Class: {predicted_class}")
+        print(f"   Confidence: {confidence:.2f}")
+        print(f"   Class Index: {class_index}")
+        print("-" * 40)
+
+    except FileNotFoundError:
+        print(f"\nERROR: Image file not found at {img_path}. Please check IMG_PATH.")
+    except Exception as e:
+        print(f"\nAn error occurred during prediction: {e}")
+
