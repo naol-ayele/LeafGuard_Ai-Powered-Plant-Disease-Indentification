@@ -1,6 +1,8 @@
-# --- Ignore Source Code Logic ---
-# Flutter Logic
-lib/**/*.dart
+
+# Allow Flutter source code
+!lib/
+!lib/** 
+!lib/**/*.dart
 assets/images/
 assets/models/
 assets/translations/
