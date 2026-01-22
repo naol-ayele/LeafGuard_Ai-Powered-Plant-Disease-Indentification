@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Scan controller
+ * Handles uploading scans, retrieving scan history, and deleting scans
+ */
+
 const pool = require("../config/db");
 const Joi = require("joi");
 const scanValidationSchema = Joi.object({
