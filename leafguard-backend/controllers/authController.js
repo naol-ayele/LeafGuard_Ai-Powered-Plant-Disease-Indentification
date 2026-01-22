@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Authentication and user account controller
+ * Handles registration, login, password reset, and password change
+ */
+
 const pool=require('../config/db');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
