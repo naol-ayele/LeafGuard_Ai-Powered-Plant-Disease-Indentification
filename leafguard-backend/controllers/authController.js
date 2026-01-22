@@ -221,6 +221,18 @@ exports.forgotPassword = async (req, res) => {
 };
 
 // Password reset
+/**
+ * Reset password using reset token
+ *
+ * @async
+ * @function resetPassword
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {Promise<void>} Success message
+ */
+
+
+
 exports.resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
