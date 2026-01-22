@@ -5,6 +5,11 @@
 
 const pool = require("../config/db");
 const Joi = require("joi");
+
+/**
+ * Joi validation schema for scan upload
+ * @type {Joi.ObjectSchema}
+ */
 const scanValidationSchema = Joi.object({
   label: Joi.string().max(100).required(),
   confidence: Joi.number().min(0).max(1).required(),
