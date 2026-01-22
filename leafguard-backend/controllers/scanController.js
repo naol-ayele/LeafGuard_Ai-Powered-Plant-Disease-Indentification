@@ -20,6 +20,20 @@ const scanValidationSchema = Joi.object({
   treatment: Joi.string().max(1000).optional().allow(null, ""),
 });
 // Upload New Scan
+/**
+ * Upload a new disease scan
+ *
+ * - Validates request body using Joi
+ * - Inserts disease information (if not already present)
+ * - Stores scan metadata linked to authenticated user
+ * - Supports transactions when using a PostgreSQL client pool
+ *
+ * @async
+ * @function uploadScan
+ * @param {import("express").Request} req - Express request object
+ * @param {import("express").Response} res - Express response object
+ * @returns {Promise<void>} JSON response containing saved scan data
+ */
 exports.uploadScan = async (req, res) => {
   let client;
   // Detect if we are in a mock environment or a real PG pool
