@@ -1,3 +1,10 @@
+/**
+ * @fileoverview Scan routes
+ * Defines routes for uploading plant disease scans,
+ * retrieving scan history, and deleting scans.
+ */
+
+
 const express = require("express");
 const router = express.Router();
 const scanController = require("../controllers/scanController");
