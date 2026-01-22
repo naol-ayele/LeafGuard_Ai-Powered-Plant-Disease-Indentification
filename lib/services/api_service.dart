@@ -39,6 +39,7 @@ class ApiService {
       );
       request.files.add(multipartFile);
 
+     // 3. Add Fields (Must match your scanController.js destructuring)
       request.fields['label'] = label;
       request.fields['confidence'] = confidence.toString();
       request.fields['status'] = status;
@@ -47,6 +48,7 @@ class ApiService {
       request.fields['symptoms'] = symptoms;
       request.fields['treatment'] = treatment;
 
+      // 4. Send and Handle Response
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
