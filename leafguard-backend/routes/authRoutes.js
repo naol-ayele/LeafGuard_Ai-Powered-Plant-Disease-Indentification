@@ -18,6 +18,13 @@ router.post("/register", authController.register);
 
 
 router.post("/login", authController.login);
+
+/**
+ * Authenticate user and return JWT token
+ *
+ * @route POST /login
+ * @access Public
+ */
 router.put("/change-password", authMiddleware, authController.changePassword);
 router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password", authController.resetPassword);
