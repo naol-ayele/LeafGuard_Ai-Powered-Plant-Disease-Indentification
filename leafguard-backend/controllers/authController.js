@@ -130,6 +130,17 @@ exports.login = async (req, res) => {
   }
 }
 // Forgot password
+
+/**
+ * Send password reset token to user's email
+ *
+ * @async
+ * @function forgotPassword
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {Promise<void>} Success message
+ */
+
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
