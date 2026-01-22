@@ -16,16 +16,13 @@ const authMiddleware = require("../middleware/authMiddleware");
  */
 router.post("/register", authController.register);
 
-
-router.post("/login", authController.login);
-
 /**
  * Authenticate user and return JWT token
  *
  * @route POST /login
  * @access Public
  */
-router.put("/change-password", authMiddleware, authController.changePassword);
+router.post("/login", authController.login);
 
 /**
  * Change password for authenticated user
@@ -33,13 +30,22 @@ router.put("/change-password", authMiddleware, authController.changePassword);
  * @route PUT /change-password
  * @access Private
  */
-router.post("/forgot-password", authController.forgotPassword);
+router.put("/change-password", authMiddleware, authController.changePassword);
 /**
  * Request password reset token via email
  *
  * @route POST /forgot-password
  * @access Public
  */
+
+router.post("/forgot-password", authController.forgotPassword);
+/**
+ * Reset user password using reset token
+ *
+ * @route POST /reset-password
+ * @access Public
+ */
 router.post("/reset-password", authController.resetPassword);
+
 
 module.exports = router;
