@@ -140,6 +140,18 @@ exports.getHistory = async (req, res) => {
   }
 };
 
+/**
+ * Delete a scan belonging to authenticated user
+ *
+ * - Ensures scan belongs to requesting user
+ * - Logs deletion action for auditing purposes
+ *
+ * @async
+ * @function deleteScan
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {Promise<void>} Success or error message
+ */
 // delete a scan
 exports.deleteScan = async (req, res) => {
   try {
