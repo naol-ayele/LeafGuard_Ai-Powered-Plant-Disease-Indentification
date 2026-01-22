@@ -34,6 +34,12 @@ router.put("/change-password", authMiddleware, authController.changePassword);
  * @access Private
  */
 router.post("/forgot-password", authController.forgotPassword);
+/**
+ * Request password reset token via email
+ *
+ * @route POST /forgot-password
+ * @access Public
+ */
 router.post("/reset-password", authController.resetPassword);
 
 module.exports = router;
