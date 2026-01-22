@@ -66,6 +66,16 @@ exports.register=async(req , res)=>{
   }
 };
 
+/**
+ * Login user and generate JWT token
+ *
+ * @async
+ * @function login
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {Promise<void>} JWT token and user info
+ */
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
