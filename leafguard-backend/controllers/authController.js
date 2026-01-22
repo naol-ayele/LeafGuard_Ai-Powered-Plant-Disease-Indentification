@@ -3,6 +3,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+
+/**
+ * Register a new user
+ *
+ * @async
+ * @function register
+ * @param {import("express").Request} req - Express request object
+ * @param {import("express").Response} res - Express response object
+ * @returns {Promise<void>} JSON response with created user data
+ */
 exports.register=async(req , res)=>{
     const {name, email, password}=req.body
     if (!email || typeof email !=='string'){
