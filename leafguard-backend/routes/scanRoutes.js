@@ -32,6 +32,12 @@ const upload = multer({
   },
 });
 // restrictd route for uploading and viewing scan history 
+/**
+ * Upload a new plant disease scan
+ *
+ * @route POST /upload
+ * @access Private
+ */
 router.post("/upload", auth, upload.single("image"), scanController.uploadScan);
 router.get("/history", auth, scanController.getHistory);
 router.delete("/:id", auth, scanController.deleteScan);
