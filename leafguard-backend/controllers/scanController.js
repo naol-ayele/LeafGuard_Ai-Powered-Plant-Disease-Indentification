@@ -106,6 +106,18 @@ exports.uploadScan = async (req, res) => {
 };
 
 // Get scan history
+/**
+ * Retrieve scan history for authenticated user
+ *
+ * - Fetches scans joined with disease information
+ * - Returns scans ordered by most recent first
+ *
+ * @async
+ * @function getHistory
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @returns {Promise<void>} JSON response containing scan history
+ */
 exports.getHistory = async (req, res) => {
   const userId = req.user.id;
   try {
