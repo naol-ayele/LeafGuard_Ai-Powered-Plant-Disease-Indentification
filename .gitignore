@@ -8,7 +8,6 @@ assets/translations/
 leafguard-backend/controllers/
 leafguard-backend/routes/
 leafguard-backend/config/
-leafguard-backend/tests/
 leafguard-backend/middleware/
 leafguard-backend/models/
 leafguard-backend/services/
