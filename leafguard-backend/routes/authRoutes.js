@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Authentication routes
+ * Defines routes for user registration, login, password management,
+ * and password recovery operations.
+ */
+
 const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
