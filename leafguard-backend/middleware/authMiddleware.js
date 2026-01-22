@@ -4,6 +4,21 @@
  */
 const jwt = require("jsonwebtoken");
 
+/**
+ * Authenticate requests using JWT
+ *
+ * - Extracts token from Authorization header
+ * - Supports "Bearer <token>" format
+ * - Verifies token using JWT secret
+ * - Attaches decoded payload to req.user
+ *
+ * @function authMiddleware
+ * @param {import("express").Request} req - Express request object
+ * @param {import("express").Response} res - Express response object
+ * @param {import("express").NextFunction} next - Express next middleware function
+ * @returns {void|import("express").Response} Continues request or returns 401 response
+ */
+
 module.exports = (req, res, next) => {
   const authHeader = req.header("Authorization");
 
