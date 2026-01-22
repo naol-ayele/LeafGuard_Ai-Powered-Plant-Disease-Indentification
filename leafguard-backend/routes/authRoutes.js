@@ -26,6 +26,13 @@ router.post("/login", authController.login);
  * @access Public
  */
 router.put("/change-password", authMiddleware, authController.changePassword);
+
+/**
+ * Change password for authenticated user
+ *
+ * @route PUT /change-password
+ * @access Private
+ */
 router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password", authController.resetPassword);
 
