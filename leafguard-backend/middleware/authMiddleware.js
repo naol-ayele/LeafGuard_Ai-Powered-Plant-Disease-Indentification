@@ -1,3 +1,7 @@
+/**
+ * @fileoverview JWT authentication middleware
+ * Validates JSON Web Tokens and attaches decoded user data to the request object
+ */
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
