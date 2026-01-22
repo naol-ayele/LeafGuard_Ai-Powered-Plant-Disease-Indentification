@@ -40,6 +40,13 @@ const upload = multer({
  */
 router.post("/upload", auth, upload.single("image"), scanController.uploadScan);
 router.get("/history", auth, scanController.getHistory);
-router.delete("/:id", auth, scanController.deleteScan);
 
+
+router.delete("/:id", auth, scanController.deleteScan);
+/**
+ * Delete a scan by ID
+ *
+ * @route DELETE /:id
+ * @access Private
+ */
 module.exports = router;
