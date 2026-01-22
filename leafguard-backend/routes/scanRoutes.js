@@ -10,7 +10,16 @@ const router = express.Router();
 const scanController = require("../controllers/scanController");
 const auth = require("../middleware/authMiddleware");
 const multer = require("multer");
-// upload configuration
+
+/**
+ * Multer configuration for image uploads
+ *
+ * - Stores uploaded images in /uploads directory
+ * - Limits file size to 5MB
+ * - Allows only image file types
+ */
+
+
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 5 * 1024 * 1024 }, 
