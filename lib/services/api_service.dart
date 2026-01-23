@@ -35,5 +35,13 @@ Future<Map<String, dynamic>> uploadScan({
         contentType: MediaType('image', 'jpeg'),
       );
       request.files.add(multipartFile);
+      // 3. Add Fields (Must match your scanController.js destructuring)
+      request.fields['label'] = label;
+      request.fields['confidence'] = confidence.toString();
+      request.fields['status'] = status;
+      request.fields['plant'] = plant;
+      request.fields['cause'] = cause;
+      request.fields['symptoms'] = symptoms;
+      request.fields['treatment'] = treatment;
 
 
