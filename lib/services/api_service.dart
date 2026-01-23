@@ -24,5 +24,16 @@ Future<Map<String, dynamic>> uploadScan({
       // 1. Add Auth Header
       request.headers['Authorization'] = 'Bearer $token';
       request.headers['ngrok-skip-browser-warning'] = 'true'
+      // 2. Add File
+      var stream = http.ByteStream(imageFile.openRead());
+      var length = await imageFile.length();
+      var multipartFile = http.MultipartFile(
+        'image', // Must match req.file name in Node.js
+        stream,
+        length,
+        filename: basename(imageFile.path),
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
 
 
