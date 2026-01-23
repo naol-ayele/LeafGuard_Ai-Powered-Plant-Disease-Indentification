@@ -9,3 +9,8 @@ class DatabaseHelper {
     _database = await _initDB('leafguard.db');
     return _database!;
   }
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
+    return await openDatabase(path, version: 1, onCreate: _createDB);
+  }
