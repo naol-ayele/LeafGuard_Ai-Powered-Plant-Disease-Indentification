@@ -8,3 +8,13 @@ import '../../services/screens/login_screen.dart';
 import '../../services/screens/register_screen.dart';
 import 'navigation.dart';
 import '../../services/ml/tflite_service.dart';
+
+late List<CameraDescription> cameras;
+
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize EasyLocalization
+  await EasyLocalization.ensureInitialized();
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
