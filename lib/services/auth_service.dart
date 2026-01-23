@@ -16,4 +16,7 @@ class AuthService {
           'error': data['error'] ?? 'Something went wrong'
         };
       }
+    } catch (e) {
+      return {'success': false, 'error': 'Server communication error'};
     }
+  }
