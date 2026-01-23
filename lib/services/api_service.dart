@@ -21,5 +21,8 @@ Future<Map<String, dynamic>> uploadScan({
     try {
       var uri = Uri.parse("$baseUrl/scans/upload");
       var request = http.MultipartRequest('POST', uri);
+      // 1. Add Auth Header
+      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['ngrok-skip-browser-warning'] = 'true'
 
 
