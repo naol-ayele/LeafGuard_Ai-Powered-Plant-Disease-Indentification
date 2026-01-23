@@ -14,3 +14,10 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
+  // Added SettingsScreen to the pages list
+  final List<Widget> _pages = [
+    const HomeScreen(),
+    const CameraScreen(),
+    const HistoryScreen(),
+    const SettingsScreen(),
+  ];
