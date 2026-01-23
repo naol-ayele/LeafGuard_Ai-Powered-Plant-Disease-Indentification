@@ -20,19 +20,6 @@ class AuthService {
       return {'success': false, 'error': 'Server communication error'};
     }
   }
-  // Register User
-  Future<Map<String, dynamic>> register(
-      String name, String email, String password) async {
-    final response = await http.post(
-      Uri.parse("$baseUrl/register"),
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true",
-      },
-      body: jsonEncode({"name": name, "email": email, "password": password}),
-    );
-    return jsonDecode(response.body);
-  }
   // Login User and Save Token
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
@@ -41,3 +28,20 @@ class AuthService {
       body: jsonEncode({"email": email, "password": password}),
     );
 
+    final data = jsonDecode(response.body);
+    if (data['success'] == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+          'token', data['token']); // Saves JWT for subsequent API calls
+    }
+
+    if (data['success'] == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', data['token']);
+      // SAVE THESE TOO:
+      await prefs.setString('userName', data['user']['name']);
+      await prefs.setString('userEmail', data['user']['email']);
+    }
+
+    return data;
+  }
