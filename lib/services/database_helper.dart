@@ -33,3 +33,8 @@ class DatabaseHelper {
     final db = await instance.database;
     return await db.query('history', orderBy: 'id DESC');
   }
+  Future<int> deleteScan(int id) async {
+    final db = await instance.database;
+    return await db.delete('history', where: 'id = ?', whereArgs: [id]);
+  }
+}
