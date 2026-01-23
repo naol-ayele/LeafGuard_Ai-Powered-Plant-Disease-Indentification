@@ -45,3 +45,41 @@ class AuthService {
 
     return data;
   }
+  
+// CHANGE PASSWORD (For logged-in users)
+  Future<Map<String, dynamic>> changePassword(
+      String currentPassword, String newPassword) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token'); // Retrieve your saved JWT token
+
+      if (token == null) {
+        return {'success': false, 'error': 'auth_token_missing'};
+      }
+
+      final response = await http.put(
+        Uri.parse('$baseUrl/change-password'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token', // Send token in header
+        },
+        body: jsonEncode({
+          'currentPassword': currentPassword,
+          'newPassword': newPassword,
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return {'success': true, 'message': data['message']};
+      } else {
+        return {
+          'success': false,
+          'error': data['error'] ?? 'failed_to_change_password'
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'error': e.toString()};
+    }
+  }
