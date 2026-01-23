@@ -46,4 +46,13 @@ Future<void> main() async {
         ),
       ),
     );
+  } catch (e) {
+    debugPrint("Initialization error: $e");
+    FlutterNativeSplash.remove();
+    runApp(EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('am'), Locale('or')],
+      path: 'assets/translations',
+      child: const LeafGuardApp(showOnboarding: true, isLoggedIn: false),
+    ));
   }
+}
