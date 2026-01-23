@@ -90,3 +90,19 @@ class AuthService {
     await prefs.remove('userEmail');
     // You can also use prefs.clear() to remove everything
   }
+  Future<Map<String, dynamic>> resetPassword(
+      String token, String newPassword) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/reset-password'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'token': token.trim(),
+          'newPassword': newPassword,
+        }),
+      );
+      return _handleResponse(response);
+    } catch (e) {
+      return {'success': false, 'error': e.toString()};
+    }
+  }
