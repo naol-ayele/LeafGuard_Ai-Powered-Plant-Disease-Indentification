@@ -25,7 +25,11 @@ class DatabaseHelper {
       )
     ''');
   }
-    Future<int> insertScan(Map<String, dynamic> row) async {
-      final db = await instance.database;
-      return await db.insert('history', row);
-    }
+  Future<int> insertScan(Map<String, dynamic> row) async {
+    final db = await instance.database;
+    return await db.insert('history', row);
+  }
+  Future<List<Map<String, dynamic>>> fetchHistory() async {
+    final db = await instance.database;
+    return await db.query('history', orderBy: 'id DESC');
+  }
