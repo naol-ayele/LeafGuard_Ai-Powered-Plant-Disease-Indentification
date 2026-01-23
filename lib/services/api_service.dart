@@ -43,5 +43,15 @@ Future<Map<String, dynamic>> uploadScan({
       request.fields['cause'] = cause;
       request.fields['symptoms'] = symptoms;
       request.fields['treatment'] = treatment;
+      // 4. Send and Handle Response
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      return json.decode(response.body);
+    } catch (e) {
+      return {"success": false, "error": e.toString()};
+    }
+  }
+}
 
 
