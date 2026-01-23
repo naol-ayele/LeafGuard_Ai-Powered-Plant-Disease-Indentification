@@ -2,16 +2,15 @@ import os
 import numpy as np
 import tensorflow as tf
 
-# Settings
+
 DATA_DIR = "data/splits"
 IMG_SIZE = 224
 BATCH_SIZE = 32
-EPOCHS = 30  # Increased, but EarlyStopping will prevent overfitting
+EPOCHS = 30
 MODEL_PATH = "model.h5"
 TFLITE_PATH = "model_quantized.tflite"
 
-# 1. ENHANCED DATA AUGMENTATION
-# Added brightness and shift to handle real-world camera variations
+
 train_gen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255,
     rotation_range=30,
@@ -39,15 +38,14 @@ val_data = val_gen.flow_from_directory(
     class_mode='categorical'
 )
 
-# 2. BUILD MODEL WITH FINE-TUNING
 base_model = tf.keras.applications.MobileNetV2(
-    weights="imagenet", 
-    include_top=False, 
+    weights="imagenet",
+    include_top=False,
     input_shape=(IMG_SIZE, IMG_SIZE, 3)
 )
 
 # Initially freeze the base
-base_model.trainable = False 
+base_model.trainable = False
 
 x = base_model.output
 x = tf.keras.layers.GlobalAveragePooling2D()(x)
@@ -60,8 +58,7 @@ model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-# 3. EARLY STOPPING
-# Stops training if the validation loss doesn't improve for 5 epochs
+
 early_stop = tf.keras.callbacks.EarlyStopping(
     monitor='val_loss',
     patience=5,

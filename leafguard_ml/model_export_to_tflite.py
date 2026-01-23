@@ -9,9 +9,7 @@ IMG_SIZE = 224
 # 1. Load your trained Keras model
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# --- NEW: Define your data source here ---
-# Replace 'path/to/your/train_data' with the actual folder path 
-# or use a small validation folder.
+
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 train_data = datagen.flow_from_directory(
     'data/testImage', # <--- UPDATE THIS PATH to your data
@@ -41,8 +39,8 @@ converter.representative_dataset = representative_dataset
 # 4. Force Full Integer Quantization
 # Note: TFLITE_BUILTINS_INT8 ensures even the math is done in INT8
 converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
-converter.inference_input_type = tf.uint8   
-converter.inference_output_type = tf.uint8 
+converter.inference_input_type = tf.uint8
+converter.inference_output_type = tf.uint8
 
 # 5. Convert and Save
 tflite_model = converter.convert()
