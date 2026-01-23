@@ -14,3 +14,14 @@ class DatabaseHelper {
     final path = join(dbPath, filePath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
+  Future _createDB(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        label TEXT,
+        confidence REAL,
+        date TEXT,
+        imagePath TEXT
+      )
+    ''');
+  }
