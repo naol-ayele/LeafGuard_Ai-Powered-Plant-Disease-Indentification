@@ -6,6 +6,7 @@ class TFLiteService {
   late Interpreter _interpreter;
   List<String> _labels = [];
 
+  // Set a threshold (e.g., 0.40) to ignore low-confidence results
   final double threshold = 0.35;
 
   Future<void> loadModel() async {
