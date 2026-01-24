@@ -96,3 +96,7 @@ def split_dataset():
                 shutil.copy2(f, out_dir)
 
         print(f"Class {cls}: train={len(train_files)}, val={len(val_files)}, test={len(test_files)}")
+if __name__ == "__main__":
+    remove_corrupted()
+    split_dataset()
+    print("\nDataset processing completed.")
