@@ -18,7 +18,7 @@ def get_class_names():
     that was established during model training.
     """
     try:
-        # Accessing ImageDataGenerator through tf.keras.preprocessing (works but is deprecated)
+        # Accessing ImageDataGenerator through tf.keras.preprocessing
         temp_gen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
         
         train_data = temp_gen.flow_from_directory(
