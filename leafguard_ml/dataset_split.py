@@ -15,3 +15,27 @@ SPLIT_DIR = "data/splits"
 
 TRAIN_P = 0.75
 VAL_P = 0.15
+# ---------------------
+
+def remove_corrupted():
+    print("Checking for corrupted images...")
+    bad = []
+
+    # Note: os.walk will correctly handle the new RAW_DIR structure
+    for root, _, files in os.walk(RAW_DIR):
+        for f in files:
+            # Check for common image extensions
+            if not f.lower().endswith(("png", "jpg", "jpeg")):
+                continue
+
+            path = os.path.join(root, f)
+            try:
+                # Use PIL to open and verify the image file integrity
+                img = Image.open(path)
+                img.verify()
+            except:
+                # If verification fails, add to the list and remove the file
+                bad.append(path)
+                os.remove(path)
+
+    print(f"Removed corrupted: {len(bad)}")
