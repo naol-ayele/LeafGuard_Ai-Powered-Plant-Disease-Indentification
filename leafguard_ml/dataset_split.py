@@ -50,3 +50,49 @@ def split_dataset():
     # Ensure base split directories exist
     for s in ["train", "val", "test"]:
         os.makedirs(os.path.join(SPLIT_DIR, s), exist_ok=True)
+# Iterate over class folders (which are now directly inside RAW_DIR)
+    for cls in os.listdir(RAW_DIR):
+        cls_path = os.path.join(RAW_DIR, cls)
+        
+        # Skip if it's not a directory (e.g., skips files like .DS_Store)
+        if not os.path.isdir(cls_path):
+            continue
+
+        # Collect all image files in the current class directory
+        images = [
+            os.path.join(cls_path, f)
+            for f in os.listdir(cls_path)
+            if f.lower().endswith(("png", "jpg", "jpeg"))
+        ]
+
+        if not images:
+             print(f"Warning: Class '{cls}' has no images and will be skipped.")
+             continue
+
+        random.shuffle(images)
+        total = len(images)
+
+        # Calculate split sizes
+        n_train = int(total * TRAIN_P)
+        n_val = int(total * VAL_P)
+
+        # Slice the list into the three sets
+        train_files = images[:n_train]
+        val_files = images[n_train:n_train+n_val]
+        test_files = images[n_train+n_val:] # Remainder goes to test
+
+        # Copy files to the respective split directories
+        for split_name, file_set in [
+            ("train", train_files),
+            ("val", val_files),
+            ("test", test_files),
+        ]:
+            # Create the destination folder: data/splits/train/ClassName
+            out_dir = os.path.join(SPLIT_DIR, split_name, cls)
+            os.makedirs(out_dir, exist_ok=True)
+            
+            # Copy all files in the set
+            for f in file_set:
+                shutil.copy2(f, out_dir)
+
+        print(f"Class {cls}: train={len(train_files)}, val={len(val_files)}, test={len(test_files)}")
