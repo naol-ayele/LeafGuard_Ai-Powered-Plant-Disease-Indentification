@@ -1,3 +1,4 @@
+
 # LeafGuard: AI-Powered Plant Disease Identification
 
 LeafGuard is an "Offline" mobile solution designed to empower farmers in remote areas. It utilizes an embedded **MobileNetV2 CNN** to diagnose crop diseases instantly without an internet connection, while providing a secure **Node.js/PostgreSQL** backend for cloud synchronization and data persistence.
@@ -195,3 +196,4 @@ AI/ML Engineers Natan, Muluken : https://github.com/natanmuletahunde, https://gi
 Backend Engineers Yoseph, Naol : https://github.com/winnerJd, https://github.com/naol-ayele,
 Mobile Developers Beka, Gifti, Bedasa : https://github.com/BekaAbate, https://github.com/giftiy, https://github.com/bedasamegersa
 QA & Security Bekan, Roba, Naol : https://github.com/beckdg, https://github.com/RobaByteNinja
+
