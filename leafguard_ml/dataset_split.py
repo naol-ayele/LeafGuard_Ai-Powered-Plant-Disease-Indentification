@@ -39,3 +39,14 @@ def remove_corrupted():
                 os.remove(path)
 
     print(f"Removed corrupted: {len(bad)}")
+def split_dataset():
+    print(f"\nStarting split from directory: {RAW_DIR}")
+    
+    # Clean up the previous splits directory before starting
+    if os.path.exists(SPLIT_DIR):
+        print(f"Removing existing split directory: {SPLIT_DIR}")
+        shutil.rmtree(SPLIT_DIR)
+
+    # Ensure base split directories exist
+    for s in ["train", "val", "test"]:
+        os.makedirs(os.path.join(SPLIT_DIR, s), exist_ok=True)
