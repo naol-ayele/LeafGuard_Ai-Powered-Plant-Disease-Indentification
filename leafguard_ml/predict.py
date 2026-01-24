@@ -66,7 +66,7 @@ def predict_image(img_path, class_names):
         confidence = preds[0][class_index]
         
         predicted_class = class_names[class_index] if class_names else "Unknown Class (Mapping Failed)"
-            
+     # Display prediction results    
         print("-" * 40)
         print(f"✅ Prediction for {os.path.basename(img_path)}:")
         print(f"   Predicted Class: {predicted_class}")
