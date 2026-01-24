@@ -1,0 +1,12 @@
+
+
+# --- Standard Security/Cleanup ---
+.env
+.env.*
+node_modules/
+build/
+.dart_tool/
+.metadata
+.idea/
+*.gitkeep
+
