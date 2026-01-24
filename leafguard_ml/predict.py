@@ -1,11 +1,13 @@
 import tensorflow as tf
 import numpy as np
 import os
-
+# Directory that contains train/validation/test splits
 DATA_DIR = "data/splits" 
-IMG_SIZE = 224           
+IMG_SIZE = 224   # Image size used during model training          
 MODEL_PATH = "model.h5"
-IMG_PATH = "testImage/corn_healthy.jpg" 
+IMG_PATH = "testImage/corn_healthy.jpg"
+
+# Load trained model
 try:
     model = tf.keras.models.load_model(MODEL_PATH)
     print(f"Successfully loaded model from {MODEL_PATH}")
